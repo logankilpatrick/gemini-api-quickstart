@@ -30,7 +30,6 @@ print(response.text)
 3. Create a new virtual environment:
 
    - macOS:
-
      ```bash
      $ python -m venv venv
      $ . venv/bin/activate
@@ -41,6 +40,12 @@ print(response.text)
      > python -m venv venv
      > .\venv\Scripts\activate
      ```
+
+   - Linux:
+      ```bash
+      $ python -m venv venv
+      $ source venv/bin/activate
+      ```
 
 4. Install the requirements:
 
