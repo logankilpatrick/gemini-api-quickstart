@@ -34,10 +34,8 @@ next_image = ""
 
 def allowed_file(filename):
     """Returns if a filename is supported via its extension"""
-    return (
-        "." in filename
-        and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
-    )
+    _, ext = os.path.splitext(filename)
+    return ext.lstrip('.').lower() in ALLOWED_EXTENSIONS
 
 
 @app.route("/upload", methods=["POST"])
