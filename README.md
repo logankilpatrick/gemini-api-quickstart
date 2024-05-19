@@ -9,7 +9,11 @@ This repository contains a simple Python Flask App running with the Google AI Ge
 To send your first API request with the [Gemini API Python SDK](https://github.com/google-gemini/generative-ai-python), make sure you have the right dependencies installed (see installation steps below) and then run the following code:
 
 ```python
+import os
 import google.generativeai as genai
+
+GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
+
 genai.configure(api_key=GOOGLE_API_KEY)
 model = genai.GenerativeModel('gemini-pro')
 
