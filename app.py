@@ -9,14 +9,16 @@ from flask import (
 from werkzeug.utils import secure_filename
 from PIL import Image
 import io
+import os
 
 import google.generativeai as genai
 
 # WARNING: Do not share code with you API key hard coded in it.
 # Get your Gemini API key from: https://aistudio.google.com/app/apikey
-GOOGLE_API_KEY=""
-genai.configure(api_key=GOOGLE_API_KEY)
+GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
 
+# Initialize configuration
+genai.configure(api_key=GOOGLE_API_KEY)
 # The rate limits are low on this model, so you might need to switch to `gemini-pro`
 model = genai.GenerativeModel('gemini-1.5-pro-latest')
 
@@ -87,7 +89,7 @@ def stream():
         else:
             response = chat_session.send_message(next_message, stream=True)
             next_message = ""
-        
+
         for chunk in response:
             assistant_response_content += chunk.text
             yield f"data: {chunk.text}\n\n"
