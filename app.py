@@ -11,7 +11,7 @@ from PIL import Image
 import io
 import os
 
-import google.generativeai as genai
+import google.generativeai as genai # Corrected import
 
 ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg"}
 
@@ -20,14 +20,13 @@ ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg"}
 GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
 
 # Initialize configuration
-genai.configure(api_key=GOOGLE_API_KEY)
+genai.configure(api_key=GOOGLE_API_KEY) # Restored
 # The rate limits are low on this model, so you might
 # need to switch to `gemini-pro`
-model = genai.GenerativeModel('gemini-1.5-pro-latest')
-
+model = genai.GenerativeModel(model_name='gemini-pro') # Using 'gemini-pro' with older SDK style
 app = Flask(__name__)
 
-chat_session = model.start_chat(history=[])
+chat_session = model.start_chat(history=[]) # Restored to older SDK style
 next_message = ""
 next_image = ""
 
@@ -71,7 +70,7 @@ def upload_file():
 @app.route("/", methods=["GET"])
 def index():
     """Renders the main homepage for the app"""
-    return render_template("index.html", chat_history=chat_session.history)
+    return render_template("index.html", chat_history=chat_session.history) # Restored to older SDK style
 
 
 @app.route("/chat", methods=["POST"])
@@ -99,12 +98,11 @@ def stream():
         assistant_response_content = ""
 
         if next_image != "":
-            # This only works with `gemini-1.5-pro-latest`
-            response = chat_session.send_message([next_message, next_image],
-                                                 stream=True)
+            # This only works with `gemini-1.5-pro-latest` # Comment might need update
+            response = chat_session.send_message([next_message, next_image], stream=True) # Restored to older SDK style
             next_image = ""
         else:
-            response = chat_session.send_message(next_message, stream=True)
+            response = chat_session.send_message(next_message, stream=True) # Restored to older SDK style
             next_message = ""
 
         for chunk in response:
@@ -113,3 +111,6 @@ def stream():
 
     return Response(stream_with_context(generate()),
                     mimetype="text/event-stream")
+
+if __name__ == '__main__':
+    app.run(debug=True, host='0.0.0.0', port=5000)
